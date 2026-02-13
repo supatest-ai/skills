@@ -68,6 +68,11 @@ Manually update Supatest skills to get the latest changes immediately.
 
 **Usage:** Invoke with `/update-skills` to pull latest skills updates.
 
+### signoz-health-check
+Perform comprehensive health checks of the SigNoz observability platform, analyzing services, logs, metrics, traces, and alerts.
+
+**Usage:** Invoke with `/signoz-health-check [timeRange]` to check system health (e.g., `/signoz-health-check 24h`).
+
 ## 🔄 Auto-Update
 
 Skills automatically update every 30 minutes in the background. The installer sets this up for you!
