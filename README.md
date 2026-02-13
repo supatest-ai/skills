@@ -63,6 +63,11 @@ Generate safe, reversible database migrations with proper validation and rollbac
 
 **Usage:** Invoke with `/db-migration` when creating schema changes.
 
+### update-skills
+Manually update Supatest skills to get the latest changes immediately.
+
+**Usage:** Invoke with `/update-skills` to pull latest skills updates.
+
 ## 🔄 Auto-Update
 
 Skills automatically update every 30 minutes in the background. The installer sets this up for you!
