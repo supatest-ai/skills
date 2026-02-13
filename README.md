@@ -39,29 +39,11 @@ git clone git@github.com:supatest-ai/skills.git supatest
 ## 🎯 Available Skills
 
 ### work-summary
-Generate comprehensive work summaries from git commits, including PR-ready descriptions and release notes.
+Generate comprehensive work summaries from git commits across multiple repositories with task categorization.
 
-**Usage:** Invoke with `/work-summary` or let Claude auto-suggest when discussing commits/PRs.
+**Usage:** `/work-summary <author> "<start_datetime>" "<end_datetime>" <repo1> [repo2]...`
 
-### test-analyzer
-Analyze failing tests from Supatest runs and provide detailed debugging context.
-
-**Usage:** Invoke with `/test-analyzer` when investigating test failures.
-
-### pr-review
-Perform thorough code reviews following Supatest's standards and best practices.
-
-**Usage:** Invoke with `/pr-review` when reviewing pull requests.
-
-### api-doc
-Generate comprehensive API documentation from code, including OpenAPI specs.
-
-**Usage:** Invoke with `/api-doc` when documenting APIs.
-
-### db-migration
-Generate safe, reversible database migrations with proper validation and rollback strategies.
-
-**Usage:** Invoke with `/db-migration` when creating schema changes.
+**Example:** `/work-summary Prasad "2026-02-13 09:00" "2026-02-13 18:00" supatest`
 
 ### update-skills
 Manually update Supatest skills to get the latest changes immediately.
