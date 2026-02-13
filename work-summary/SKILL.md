@@ -1,165 +1,228 @@
 # Work Summary Generator
 
-Generate comprehensive work summaries from git commits, perfect for PRs, release notes, and stakeholder updates.
+Generate a summary of work done based on git commit history.
+
+## Arguments
+
+`<author> <start_datetime> <end_datetime> <repo1> [repo2] [repo3]...`
+
+### Examples
+- `/work-summary Prasad "2026-01-08 06:00" "2026-01-09 02:00" supatest aiden`
+- `/work-summary "Prasad Pilla" "2026-01-07 09:00" "2026-01-07 18:00" .`
 
 ## When to use this skill
 
 Use this skill when you need to:
-- Create pull request descriptions from recent commits
-- Generate release notes for a sprint or milestone
-- Summarize work done in a specific time period
-- Create status updates for stakeholders
-- Document changes for code reviews
+- Generate work summaries for standup or status reports
+- Create summaries for timesheets or billing
+- Review what was accomplished in a time period
+- Prepare for retrospectives or reviews
+- Track work across multiple repositories
 
 ## Instructions
 
-When the user invokes this skill:
+### 1. Parse Arguments
 
-1. **Gather Git Information**
-   - Run `git log --oneline --decorate -n 20` to see recent commits
-   - If a branch name is provided, compare against it: `git log main..current-branch --oneline`
-   - If a time range is provided, use: `git log --since="2 weeks ago" --oneline`
-   - Get detailed commit info: `git log --stat -n 10` for file changes
+If no arguments provided, ask the user for:
+1. **Author name** - Git author to filter by
+2. **Start date/time** - Format: `YYYY-MM-DD HH:MM` (in local timezone)
+3. **End date/time** - Format: `YYYY-MM-DD HH:MM` (in local timezone)
+4. **Repository paths** - Space-separated, relative to current directory or absolute paths
 
-2. **Analyze Commits**
-   - Group commits by type (features, fixes, refactoring, docs, tests, chores)
-   - Identify related commits that belong together
-   - Look for patterns in file changes
-   - Note any breaking changes or important migrations
+Example prompts:
+```
+Please provide:
+- Author name: (e.g., "Prasad" or "Prasad Pilla")
+- Start time: (e.g., "2026-01-08 09:00")
+- End time: (e.g., "2026-01-08 18:00")
+- Repositories: (e.g., "supatest aiden" or "." for current)
+```
 
-3. **Get Diff Context**
-   - For significant changes, review diffs: `git diff main...HEAD` (or specified range)
-   - Focus on the "why" not just the "what"
-   - Identify API changes, schema modifications, or config updates
+### 2. Collect Git Data
 
-4. **Generate Summary**
-   Create a structured summary with:
+For each repository:
 
-   **Overview**
-   - High-level description of what was accomplished
-   - Business value or problem solved
+**Get commits:**
+```bash
+cd <repo> && git log --author="<author>" --since="<start>" --until="<end>" --pretty=format:"%h|%s"
+```
 
-   **Changes**
-   Organize by category:
-   - ✨ **Features**: New functionality added
-   - 🐛 **Bug Fixes**: Issues resolved
-   - ♻️ **Refactoring**: Code improvements
-   - 📝 **Documentation**: Docs updates
-   - ✅ **Tests**: Test coverage changes
-   - 🔧 **Chores**: Build, config, dependencies
+**Get stats:**
+```bash
+cd <repo> && git log --author="<author>" --since="<start>" --until="<end>" --shortstat --pretty=format:"%h"
+```
 
-   **Technical Details**
-   - Key files modified
-   - Database/schema changes
-   - API changes or new endpoints
-   - Dependencies added/updated
+**Notes:**
+- Assume IST timezone (+0530) unless otherwise specified
+- Handle relative paths (convert to absolute if needed)
+- If repo doesn't exist, warn and skip it
 
-   **Testing**
-   - What was tested
-   - Test coverage changes
-   - Manual testing performed
+### 3. Group and Categorize Commits
 
-   **Breaking Changes** (if any)
-   - What breaks
-   - Migration path
+**Group related commits** into logical tasks:
+- Same feature across multiple commits
+- Related bug fixes
+- Single refactoring effort
+- Use commit message prefixes to help (feat, fix, refactor, chore, docs, test)
 
-   **Next Steps** (if applicable)
-   - Follow-up work needed
-   - Known issues or limitations
+**Categorize by size:**
 
-5. **Formatting Options**
-   Ask the user if they want:
-   - **PR Description**: GitHub-flavored markdown, detailed
-   - **Release Notes**: User-facing, concise
-   - **Stakeholder Update**: Business-focused, high-level
-   - **Technical Summary**: Developer-focused, detailed
+**Large Tasks:**
+- New packages or major modules
+- Significant new functionality with multiple components
+- Major architectural changes
+- Complex features spanning many files
+- Examples: "Add authentication system", "Implement payment processing"
 
-   Default to PR Description format if not specified.
+**Medium Tasks:**
+- Feature additions to existing modules
+- Substantial refactoring efforts
+- Multi-file changes with moderate complexity
+- API endpoint additions
+- Examples: "Add user profile editing", "Refactor API error handling"
 
-6. **Additional Context**
-   - If commits reference issue numbers, mention them
-   - Link related PRs if mentioned in commits
-   - Highlight any commits marked with [BREAKING] or similar tags
+**Small Tasks:**
+- Bug fixes
+- UI tweaks and styling
+- Single-file changes
+- Cleanup and formatting
+- Documentation updates
+- Minor refactors
+- Examples: "Fix typo", "Update button color", "Add JSDoc"
+
+### 4. Calculate Totals
+
+- Total commit count across all repos
+- Total lines added (sum from git stats)
+- Total lines deleted (sum from git stats)
+- Total distinct tasks
+
+### 5. Generate Output
+
+Use this format:
+
+```markdown
+## Work Summary: <start> - <end>
+
+### Large (<count>)
+1. **Task Name** (repo-name) - Brief description of what was accomplished
+2. **Another Task** (repo-name) - Description
+
+### Medium (<count>)
+1. **Task Name** (repo-name) - Brief description
+2. **Another Task** (repo-name) - Description
+
+### Small (<count>)
+- Fix login validation error (repo-name)
+- Update dashboard styling (repo-name)
+- Add API documentation (repo-name)
+- Refactor utility functions (repo-name)
+
+---
+
+**Summary:** X commits, ~Yk lines added, ~Zk lines deleted across N distinct tasks
+```
+
+**Formatting notes:**
+- Use **bold** for task names
+- Include repo name in parentheses if multiple repos
+- Round line counts to nearest thousand (e.g., ~2k, ~500)
+- List small tasks as bullet points (not numbered)
+- Keep descriptions concise (one line)
 
 ## Examples
 
-### Example 1: PR Description
+### Example 1: With Arguments
 ```
-User: "Generate a work summary for my current branch"
+User: "/work-summary Prasad '2026-02-13 09:00' '2026-02-13 18:00' supatest"
 
-You: Run git commands to analyze commits and respond with:
+You:
+1. cd supatest
+2. Run git log commands
+3. Analyze commits
+4. Output:
 
-## Summary
-Implemented user authentication with JWT tokens and added password reset functionality.
+## Work Summary: 2026-02-13 09:00 - 2026-02-13 18:00
 
-## Changes
+### Large (1)
+1. **Add user authentication system** (supatest) - Implemented JWT-based auth with login, signup, and password reset flows
 
-✨ **Features**
-- Add JWT-based authentication system (#123)
-- Implement password reset flow with email verification (#125)
-- Add "Remember me" functionality
+### Medium (2)
+1. **Refactor API error handling** (supatest) - Standardized error responses across all endpoints
+2. **Add test coverage reporting** (supatest) - Integrated coverage tools and added dashboard
 
-🐛 **Bug Fixes**
-- Fix session timeout not clearing cookies (#124)
+### Small (5)
+- Fix session timeout bug
+- Update login page styling
+- Add API documentation for auth endpoints
+- Remove unused dependencies
+- Fix TypeScript type errors
 
-♻️ **Refactoring**
-- Extract auth middleware to separate module
-- Consolidate password validation logic
+---
 
-## Technical Details
-- Added `jsonwebtoken` and `bcrypt` dependencies
-- New database table: `password_reset_tokens`
-- New API endpoints:
-  - POST /auth/login
-  - POST /auth/reset-password
-  - POST /auth/verify-reset-token
-
-## Testing
-- Added unit tests for auth middleware (95% coverage)
-- Added integration tests for password reset flow
-- Manually tested with various email providers
-
-## Breaking Changes
-None
+**Summary:** 15 commits, ~2k lines added, ~500 lines deleted across 8 distinct tasks
 ```
 
-### Example 2: Release Notes
+### Example 2: Multiple Repos
 ```
-User: "Create release notes for the last 2 weeks in user-facing language"
+User: "/work-summary 'Prasad Pilla' '2026-02-01 00:00' '2026-02-07 23:59' supatest aiden docs"
 
-You: Run git log --since="2 weeks ago" and respond with:
+You analyze commits across all three repos and group by task:
 
-# Release v2.3.0
+## Work Summary: 2026-02-01 - 2026-02-07
 
-## What's New
-- **Faster Test Execution**: Tests now run 40% faster with parallel execution
-- **Smart Test Selection**: Automatically runs only tests affected by your changes
-- **Enhanced Error Messages**: More helpful error messages with fix suggestions
+### Large (2)
+1. **Implement CI/CD pipeline** (supatest, aiden) - Set up GitHub Actions for automated testing and deployment
+2. **Add real-time collaboration** (aiden) - WebSocket-based live editing with conflict resolution
 
-## Improvements
-- Better error handling for network timeouts
-- Improved dashboard loading performance
-- More detailed test failure reports
+### Medium (3)
+1. **Optimize database queries** (supatest) - Added indexes and rewrote slow queries
+2. **Update documentation site** (docs) - Redesigned docs with new examples
+3. **Add error tracking** (aiden) - Integrated Sentry for error monitoring
 
-## Bug Fixes
-- Fixed issue where cancelled runs would show as "running"
-- Resolved memory leak in test runner
-- Fixed incorrect test count in summary view
+### Small (8)
+- Fix dashboard loading spinner (aiden)
+- Update README with new features (supatest)
+- Add changelog for v2.1 (docs)
+- Fix mobile responsive issues (aiden)
+- Remove debug logging (supatest)
+- Update dependencies (supatest, aiden)
+- Fix broken links in docs (docs)
+- Add code of conduct (docs)
+
+---
+
+**Summary:** 42 commits, ~5k lines added, ~2k lines deleted across 13 distinct tasks
+```
+
+### Example 3: No Arguments - Interactive
+```
+User: "/work-summary"
+
+You: "Please provide the following information:
+- Author name: (e.g., 'Prasad' or 'Prasad Pilla')
+- Start date/time: (format: YYYY-MM-DD HH:MM, e.g., '2026-02-13 09:00')
+- End date/time: (format: YYYY-MM-DD HH:MM, e.g., '2026-02-13 18:00')
+- Repository paths: (space-separated, e.g., 'supatest aiden' or '.' for current directory)"
+
+User: "Prasad, 2026-02-13 09:00, 2026-02-13 18:00, ."
+
+You: [Process current directory as repository and generate summary]
 ```
 
 ## Tips
 
-- **Be concise but thorough**: Include enough detail for understanding without overwhelming
-- **Use clear categorization**: Group related changes together
-- **Highlight impact**: Explain the "why" and "value" of changes
-- **Include relevant commands**: Show git commands used if helpful for reproduction
-- **Link to issues/PRs**: Reference ticket numbers when mentioned in commits
-- **Note deployment needs**: Mention if DB migrations, config changes, or deployment steps are needed
-- **Consider the audience**: Adjust technical depth based on who will read it
+- **Smart grouping**: Combine commits like "Add feature X", "Fix feature X bug", "Update feature X tests" into one task
+- **Use commit messages**: Look for conventional commit prefixes (feat:, fix:, refactor:, etc.)
+- **Context matters**: A 10-line change to a critical file might be "Medium", while a 100-line new test file might be "Small"
+- **Repo names**: Only show repo names if analyzing multiple repos
+- **Time zones**: Default to IST (+0530) but respect user's timezone if specified
+- **Clarity**: Make task descriptions clear and business-value focused
+- **Accuracy**: Count lines accurately from git stats
 
 ## Notes
 
-- This skill works best with clear, descriptive commit messages
-- For very large changesets, focus on the most significant changes
-- Always offer to dig deeper into specific areas if the user wants more detail
-- If commit messages are unclear, make best efforts but note where assumptions were made
+- This skill works best with clean, descriptive commit messages
+- For very large time ranges, consider summarizing by day or week
+- If no commits found, clearly state that and verify the author name and date range
+- Handle errors gracefully (missing repos, invalid dates, git errors)
