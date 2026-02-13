@@ -15,7 +15,7 @@ cd /tmp/supatest-skills
 
 The installer will:
 - Install skills to `~/.claude/skills/supatest`
-- Optionally set up automatic updates every 6 hours
+- Optionally set up automatic updates every 30 minutes
 - Show you all available skills
 
 ### Manual Installation
@@ -65,7 +65,7 @@ Generate safe, reversible database migrations with proper validation and rollbac
 
 ## 🔄 Auto-Update
 
-Skills automatically update every 6 hours in the background. The installer sets this up for you!
+Skills automatically update every 30 minutes in the background. The installer sets this up for you!
 
 If you skipped auto-update during installation, enable it anytime:
 ```bash

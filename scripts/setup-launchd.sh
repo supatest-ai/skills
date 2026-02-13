@@ -24,7 +24,7 @@ cat > "${PLIST_FILE}" << EOF
     </array>
 
     <key>StartInterval</key>
-    <integer>21600</integer> <!-- 6 hours -->
+    <integer>1800</integer> <!-- 30 minutes -->
 
     <key>RunAtLoad</key>
     <true/>
@@ -46,7 +46,7 @@ launchctl load "${PLIST_FILE}"
 
 echo "✅ launchd agent loaded and running"
 echo ""
-echo "The skills will now update automatically every 6 hours"
+echo "The skills will now update automatically every 30 minutes"
 echo ""
 echo "Useful commands:"
 echo "  Check status:  launchctl list | grep supatest"

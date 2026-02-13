@@ -28,7 +28,7 @@ echo "✅ Skills installed at: ${SKILLS_DIR}"
 # Setup auto-update with launchd
 echo ""
 echo "🔄 Setting up automatic updates..."
-read -p "Enable automatic updates every 6 hours? (y/n) " -n 1 -r
+read -p "Enable automatic updates every 30 minutes? (y/n) " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     # Create LaunchAgents directory if it doesn't exist
@@ -49,7 +49,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     </array>
 
     <key>StartInterval</key>
-    <integer>21600</integer>
+    <integer>1800</integer>
 
     <key>RunAtLoad</key>
     <true/>
@@ -67,7 +67,7 @@ EOF
     launchctl unload "${PLIST_FILE}" 2>/dev/null || true
     launchctl load "${PLIST_FILE}"
 
-    echo "✅ Auto-update enabled (every 6 hours via launchd)"
+    echo "✅ Auto-update enabled (every 30 minutes via launchd)"
     echo "   Logs: tail -f ${HOME}/.claude/skills/supatest-update.log"
     echo "   Stop: launchctl unload ${PLIST_FILE}"
 else
