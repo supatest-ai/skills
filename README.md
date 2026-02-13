@@ -63,56 +63,32 @@ Generate safe, reversible database migrations with proper validation and rollbac
 
 **Usage:** Invoke with `/db-migration` when creating schema changes.
 
-## 🔄 Auto-Update Setup
+## 🔄 Auto-Update
 
-Keep your skills automatically up-to-date with the latest improvements!
+Skills automatically update every 6 hours in the background. The installer sets this up for you!
 
-### Option 1: Cron Job (Linux/macOS)
-
-The install script offers automatic setup, or manually add to crontab:
-
-```bash
-# Updates every 6 hours
-(crontab -l 2>/dev/null; echo "0 */6 * * * cd ~/.claude/skills/supatest && git pull --quiet > /dev/null 2>&1") | crontab -
-```
-
-### Option 2: launchd Agent (macOS)
-
+If you skipped auto-update during installation, enable it anytime:
 ```bash
 cd ~/.claude/skills/supatest
 ./scripts/setup-launchd.sh
 ```
 
-This creates a system service that:
-- Updates skills every 6 hours automatically
-- Runs in the background
-- Logs all updates to `~/.claude/skills/supatest-update.log`
-
-**Useful commands:**
+**Management commands:**
 ```bash
-# Check status
-launchctl list | grep supatest
-
 # View update log
 tail -f ~/.claude/skills/supatest-update.log
 
-# Stop auto-updates
+# Check if updater is running
+launchctl list | grep supatest
+
+# Disable auto-updates
 launchctl unload ~/Library/LaunchAgents/com.supatest.skills-updater.plist
 
-# Restart auto-updates
+# Re-enable auto-updates
 launchctl load ~/Library/LaunchAgents/com.supatest.skills-updater.plist
-```
 
-### Option 3: Manual Update
-
-```bash
-cd ~/.claude/skills/supatest
-git pull origin main
-```
-
-Or use the update script:
-```bash
-~/.claude/skills/supatest/scripts/auto-update.sh
+# Manual update
+cd ~/.claude/skills/supatest && git pull
 ```
 
 ## 📝 Contributing
