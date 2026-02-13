@@ -55,6 +55,16 @@ Perform comprehensive health checks of the SigNoz observability platform, analyz
 
 **Usage:** Invoke with `/signoz-health-check [timeRange]` to check system health (e.g., `/signoz-health-check 24h`).
 
+### commit
+Commit staged files with well-structured commit messages following conventional commits format.
+
+**Usage:** Invoke with `/commit` to commit already staged files.
+
+### commit-all
+Stage all changes and commit with well-structured commit messages following conventional commits format.
+
+**Usage:** Invoke with `/commit-all` to stage and commit everything.
+
 ## 🔄 Auto-Update
 
 Skills automatically update every 30 minutes in the background. The installer sets this up for you!
