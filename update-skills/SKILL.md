@@ -102,35 +102,34 @@ When the user invokes this skill:
    - composio (ComposioHQ Skills)
    ```
 
-10. **Offer to Install Missing Skills**
-    If there are missing recommended skills, ask:
+10. **Recommend Missing Skills**
+    If there are missing recommended skills, show:
     ```
-    Would you like to install any of the missing recommended skills?
+    💡 Recommended Public Skills You Could Install:
 
     1. community - Awesome Claude Skills
+       Install: cd ~/.claude/skills && git clone https://github.com/travisvn/awesome-claude-skills.git community
+
     2. composio - ComposioHQ Skills
-    3. All of them
-    4. None, skip
+       Install: cd ~/.claude/skills && git clone https://github.com/ComposioHQ/awesome-claude-skills.git composio
+
+    You can copy and paste the install commands above to install them.
     ```
 
-11. **Install Selected Skills**
-    For each skill the user wants to install:
-    - Extract the git clone command from the README table
-    - Run the command: `cd ~/.claude/skills && git clone <url> <name>`
-    - Confirm success or report errors
-    - Show what skills are now available from that repository
+    **Do NOT automatically install** - just show the recommendations and commands.
+    Let the user decide if they want to install any.
 
-12. **Update Installed Public Skills (Optional)**
-    If user has public skills already installed, ask:
+11. **Suggest Updating Installed Public Skills**
+    If user has public skills already installed, show:
     ```
-    Would you like to update your installed public skills?
-    - anthropic
-    - community
+    📦 Installed Public Skills:
+    - anthropic (Official Anthropic skills)
+    - community (Awesome Claude Skills)
+
+    To update: cd ~/.claude/skills/<name> && git pull
     ```
 
-    If yes, for each:
-    - `cd ~/.claude/skills/<name> && git pull`
-    - Report what updated or if already up to date
+    **Do NOT automatically update** - just show what's installed and how to update.
 
 ## Example Output
 
@@ -161,42 +160,33 @@ New skills:
 ## 🌟 Recommended Public Skills
 
 ✅ Installed:
-- anthropic (Official Anthropic skills) - Up to date
+- anthropic (Official Anthropic skills)
 
-❌ Not Installed:
-- community (Awesome Claude Skills)
-- composio (ComposioHQ Skills)
+💡 Not Installed (Recommended):
 
-Would you like to install any missing skills?
-1. community - Curated collection of community skills
-2. composio - Another curated skill collection
-3. All
-4. Skip
+1. community - Awesome Claude Skills
+   Install: cd ~/.claude/skills && git clone https://github.com/travisvn/awesome-claude-skills.git community
 
-User: "1"
+2. composio - ComposioHQ Skills
+   Install: cd ~/.claude/skills && git clone https://github.com/ComposioHQ/awesome-claude-skills.git composio
 
-You:
-Installing community skills...
+Copy and paste the install commands above if you'd like to add them!
 
-cd ~/.claude/skills && git clone https://github.com/travisvn/awesome-claude-skills.git community
+---
 
-✅ Community skills installed!
-
-All recommended skills are now installed. You can use any skill from:
-- supatest (company skills)
-- anthropic (official skills)
-- community (community skills)
+📦 Update Installed Public Skills:
+- anthropic: cd ~/.claude/skills/anthropic && git pull
 ```
 
 ## Tips
 
 - **Read README carefully**: Parse the markdown table to extract URLs and names
 - **Look for table format**: | [Name](URL) | Description | Install Command |
-- **Check before cloning**: Don't clone if directory already exists
-- **Show what's available**: After installing, list what skills are now available
-- **Non-destructive**: Never force-pull or discard changes without asking
-- **Update public skills**: Offer to update already-installed public skills too
+- **Just recommend, don't install**: Show install commands, let user copy/paste
+- **Non-destructive**: Never automatically install or force-pull anything
+- **Show commands clearly**: Make it easy for user to copy/paste
 - **Extract from install command**: The README table has install commands with the directory name
+- **Don't ask permission**: Just show recommendations and commands
 
 ## Notes
 
@@ -206,3 +196,5 @@ All recommended skills are now installed. You can use any skill from:
 - Can be run multiple times without issues
 - The README is the source of truth for recommended skills
 - Parse the markdown table to get the correct repository URLs and install commands
+- **Never automatically install** - only show recommendations and commands
+- Let the user decide and copy/paste commands themselves
