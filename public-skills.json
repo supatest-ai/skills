@@ -1,0 +1,19 @@
+{
+  "public_skills": [
+    {
+      "name": "anthropic",
+      "url": "https://github.com/anthropics/skills.git",
+      "description": "Official Anthropic skills",
+      "enabled": true
+    }
+  ],
+  "notes": [
+    "Add public skill repositories here that your team should install",
+    "Set 'enabled: false' to disable a skill without removing it",
+    "Skills are installed to ~/.claude/skills/<name>",
+    "Examples of public skill repos:",
+    "  - https://github.com/anthropics/skills",
+    "  - https://github.com/travisvn/awesome-claude-skills",
+    "  - https://github.com/ComposioHQ/awesome-claude-skills"
+  ]
+}

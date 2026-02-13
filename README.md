@@ -18,6 +18,21 @@ The installer will:
 - Optionally set up automatic updates every 30 minutes
 - Show you all available skills
 
+### Install with Public Skills
+
+To install company skills + recommended public skills:
+
+```bash
+cd /tmp/supatest-skills
+./scripts/install-with-public.sh
+```
+
+This installs:
+- Your company skills (supatest)
+- Public skills from `public-skills.json` (e.g., Anthropic official skills)
+
+All skills will be available across all your projects!
+
 ### Manual Installation
 
 #### For Global Access (All Projects)
@@ -91,6 +106,59 @@ launchctl load ~/Library/LaunchAgents/com.supatest.skills-updater.plist
 
 # Manual update
 cd ~/.claude/skills/supatest && git pull
+```
+
+## 🌐 Adding Public Skills
+
+You can install public skills from any GitHub repository alongside company skills.
+
+### Method 1: Install to Separate Directory (Easiest)
+
+```bash
+cd ~/.claude/skills/
+git clone https://github.com/user/their-skills.git their-skills
+```
+
+Skills from all directories in `~/.claude/skills/` are available!
+
+### Method 2: Add to Company Config
+
+Edit `public-skills.json` and add the repository:
+
+```json
+{
+  "public_skills": [
+    {
+      "name": "anthropic",
+      "url": "https://github.com/anthropics/skills.git",
+      "description": "Official Anthropic skills",
+      "enabled": true
+    },
+    {
+      "name": "your-skills",
+      "url": "https://github.com/user/skills.git",
+      "description": "Description here",
+      "enabled": true
+    }
+  ]
+}
+```
+
+Then run `./scripts/install-with-public.sh` to install for everyone.
+
+### Popular Public Skill Repositories
+
+- [Anthropic Official Skills](https://github.com/anthropics/skills)
+- [Awesome Claude Skills](https://github.com/travisvn/awesome-claude-skills)
+- [ComposioHQ Skills](https://github.com/ComposioHQ/awesome-claude-skills)
+
+### Updating Public Skills
+
+Public skills don't auto-update. Update manually:
+
+```bash
+cd ~/.claude/skills/anthropic
+git pull
 ```
 
 ## 📝 Contributing
