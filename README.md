@@ -4,18 +4,31 @@ This repository contains organization-wide Claude skills for the Supatest AI tea
 
 ## 📦 Installation
 
-### For Global Access (All Projects)
+### Quick Install (Recommended)
+
+```bash
+# Clone and run the installer
+git clone git@github.com:supatest-ai/skills.git /tmp/supatest-skills
+cd /tmp/supatest-skills
+./scripts/install.sh
+```
+
+The installer will:
+- Install skills to `~/.claude/skills/supatest`
+- Optionally set up automatic updates every 6 hours
+- Show you all available skills
+
+### Manual Installation
+
+#### For Global Access (All Projects)
 
 ```bash
 # Clone into your global skills directory
 cd ~/.claude/skills/
 git clone git@github.com:supatest-ai/skills.git supatest
-
-# Or create a symlink
-ln -s /path/to/this/repo ~/.claude/skills/supatest
 ```
 
-### For Project-Specific Use
+#### For Project-Specific Use
 
 ```bash
 # Clone into your project
@@ -45,11 +58,61 @@ Generate comprehensive API documentation from code, including OpenAPI specs.
 
 **Usage:** Invoke with `/api-doc` when documenting APIs.
 
-## 🔄 Updating Skills
+### db-migration
+Generate safe, reversible database migrations with proper validation and rollback strategies.
+
+**Usage:** Invoke with `/db-migration` when creating schema changes.
+
+## 🔄 Auto-Update Setup
+
+Keep your skills automatically up-to-date with the latest improvements!
+
+### Option 1: Cron Job (Linux/macOS)
+
+The install script offers automatic setup, or manually add to crontab:
+
+```bash
+# Updates every 6 hours
+(crontab -l 2>/dev/null; echo "0 */6 * * * cd ~/.claude/skills/supatest && git pull --quiet > /dev/null 2>&1") | crontab -
+```
+
+### Option 2: launchd Agent (macOS)
+
+```bash
+cd ~/.claude/skills/supatest
+./scripts/setup-launchd.sh
+```
+
+This creates a system service that:
+- Updates skills every 6 hours automatically
+- Runs in the background
+- Logs all updates to `~/.claude/skills/supatest-update.log`
+
+**Useful commands:**
+```bash
+# Check status
+launchctl list | grep supatest
+
+# View update log
+tail -f ~/.claude/skills/supatest-update.log
+
+# Stop auto-updates
+launchctl unload ~/Library/LaunchAgents/com.supatest.skills-updater.plist
+
+# Restart auto-updates
+launchctl load ~/Library/LaunchAgents/com.supatest.skills-updater.plist
+```
+
+### Option 3: Manual Update
 
 ```bash
 cd ~/.claude/skills/supatest
 git pull origin main
+```
+
+Or use the update script:
+```bash
+~/.claude/skills/supatest/scripts/auto-update.sh
 ```
 
 ## 📝 Contributing
