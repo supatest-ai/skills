@@ -108,58 +108,43 @@ launchctl load ~/Library/LaunchAgents/com.supatest.skills-updater.plist
 cd ~/.claude/skills/supatest && git pull
 ```
 
-## 🌐 Adding Public Skills
+## 🌟 Recommended Public Skills
 
-You can install public skills from any GitHub repository alongside company skills.
+These are curated public skills we recommend for the team. Use `/update-skills` to see which ones you have installed and get prompted to install missing ones.
 
-### Method 1: Install to Separate Directory (Easiest)
+### Official & Essential
 
-```bash
-cd ~/.claude/skills/
-git clone https://github.com/user/their-skills.git their-skills
-```
+| Skill Repository | Description | Install Command |
+|-----------------|-------------|-----------------|
+| [Anthropic Official Skills](https://github.com/anthropics/skills) | Official skills from Anthropic | `cd ~/.claude/skills && git clone https://github.com/anthropics/skills.git anthropic` |
 
-Skills from all directories in `~/.claude/skills/` are available!
+### Community Skills
 
-### Method 2: Add to Company Config
+| Skill Repository | Description | Install Command |
+|-----------------|-------------|-----------------|
+| [Awesome Claude Skills](https://github.com/travisvn/awesome-claude-skills) | Curated collection of community skills | `cd ~/.claude/skills && git clone https://github.com/travisvn/awesome-claude-skills.git community` |
+| [ComposioHQ Skills](https://github.com/ComposioHQ/awesome-claude-skills) | Another curated skill collection | `cd ~/.claude/skills && git clone https://github.com/ComposioHQ/awesome-claude-skills.git composio` |
 
-Edit `public-skills.json` and add the repository:
+### How to Install
 
-```json
-{
-  "public_skills": [
-    {
-      "name": "anthropic",
-      "url": "https://github.com/anthropics/skills.git",
-      "description": "Official Anthropic skills",
-      "enabled": true
-    },
-    {
-      "name": "your-skills",
-      "url": "https://github.com/user/skills.git",
-      "description": "Description here",
-      "enabled": true
-    }
-  ]
-}
-```
+**Option 1: Use `/update-skills`** (Recommended)
+- Run `/update-skills` and it will check which recommended skills you're missing
+- It will offer to install them for you
 
-Then run `./scripts/install-with-public.sh` to install for everyone.
-
-### Popular Public Skill Repositories
-
-- [Anthropic Official Skills](https://github.com/anthropics/skills)
-- [Awesome Claude Skills](https://github.com/travisvn/awesome-claude-skills)
-- [ComposioHQ Skills](https://github.com/ComposioHQ/awesome-claude-skills)
+**Option 2: Manual Install**
+- Copy the install command from the table above
+- Skills from all directories in `~/.claude/skills/` are automatically available!
 
 ### Updating Public Skills
 
 Public skills don't auto-update. Update manually:
 
 ```bash
-cd ~/.claude/skills/anthropic
-git pull
+cd ~/.claude/skills/anthropic && git pull
+cd ~/.claude/skills/community && git pull
 ```
+
+Or use `/update-skills` to update all skills at once.
 
 ## 📝 Contributing
 
