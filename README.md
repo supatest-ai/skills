@@ -80,6 +80,13 @@ Stage all changes and commit with well-structured commit messages following conv
 
 **Usage:** Invoke with `/commit-all` to stage and commit everything.
 
+### test-with-supatest
+Generate comprehensive E2E tests and a visual verification report for a completed feature using Supatest CLI.
+
+**Usage:** `/test-with-supatest [feature-description]`
+
+**Example:** `/test-with-supatest "user authentication login form with email and password"`
+
 ## 🔄 Auto-Update
 
 Skills automatically update every 30 minutes in the background. The installer sets this up for you!
