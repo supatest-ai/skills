@@ -1,0 +1,7 @@
+{
+  "name": "work-summary",
+  "description": "Generate a summary of work done from git commit history across one or more repos. Useful for standups, timesheets, and retrospectives.",
+  "version": "1.0.0",
+  "author": { "name": "Supatest AI" },
+  "license": "MIT"
+}
