@@ -70,6 +70,13 @@ Perform comprehensive health checks of the SigNoz observability platform, analyz
 
 **Usage:** Invoke with `/signoz-health-check [timeRange]` to check system health (e.g., `/signoz-health-check 24h`).
 
+### deploy
+Deploy your application to staging or production via GitHub Actions. Auto-detects changed services by diffing against the last successful deployment, shows a plan, and streams live workflow progress.
+
+**Usage:** `/deploy [staging|prod] [services]`
+
+**Example:** `/deploy prod web,api`
+
 ### commit
 Commit staged files with well-structured commit messages following conventional commits format.
 
