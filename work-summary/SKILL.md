@@ -1,3 +1,9 @@
+---
+name: work-summary
+description: Generate a summary of work done based on git commit history across one or more repositories. Use for standups, timesheets, retrospectives, or any time you need a structured overview of what was accomplished in a time period.
+argument-hint: <author> <start_datetime> <end_datetime> <repo1> [repo2...]
+---
+
 # Work Summary Generator
 
 Generate a summary of work done based on git commit history.

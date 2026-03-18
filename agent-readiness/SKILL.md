@@ -1,3 +1,8 @@
+---
+name: agent-readiness
+description: Evaluate how ready a codebase is for autonomous AI agent work. Produces a scored report across 11 dimensions with a maturity level and prioritized action plan.
+---
+
 # Agent Readiness Assessment
 
 Evaluate how ready a codebase (or full SDLC) is for autonomous AI agent work. Produces a

@@ -1,3 +1,8 @@
+---
+name: commit-all
+description: Stage all changes and commit with well-structured conventional commit messages. Use when you want to stage and commit everything in one step, with automatic safety checks for sensitive files.
+---
+
 # Commit All Changes
 
 Stage all changes and commit with well-structured commit messages following conventional commits format.

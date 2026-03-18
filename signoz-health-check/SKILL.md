@@ -1,7 +1,7 @@
 ---
 name: signoz-health-check
 description: Check broad metrics and health status of SigNoz observability platform. Shows service health, error rates, latency, recent errors, and alerts. Use when you need to monitor system health or investigate issues.
-user_invocable: true
+argument-hint: [30m|1h|6h|24h|7d]
 ---
 
 # SigNoz Health Check

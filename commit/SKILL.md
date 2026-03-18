@@ -1,3 +1,8 @@
+---
+name: commit
+description: Commit already-staged files with well-structured conventional commit messages. Use when files are already staged with git add and you want a properly formatted commit.
+---
+
 # Commit Staged Files
 
 Commit staged files with well-structured commit messages following conventional commits format.
