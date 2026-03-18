@@ -70,6 +70,21 @@ Perform comprehensive health checks of the SigNoz observability platform, analyz
 
 **Usage:** Invoke with `/signoz-health-check [timeRange]` to check system health (e.g., `/signoz-health-check 24h`).
 
+### debug-prod
+Investigate a production incident using a mitigation-first protocol. Uses the observability funnel (metrics → traces → logs), hypothesis-driven instrumentation, and produces a structured findings report and optional postmortem.
+
+**Usage:** `/debug-prod [description of the issue]`
+
+### bug
+Structured bug investigation: capture → reproduce → root cause → write failing test → fix → verify. Supports regression detection via `git bisect` and optional GitHub issue filing.
+
+**Usage:** `/bug [description of the bug]`
+
+### review-pr
+Review a pull request. Filters to issues introduced by the PR (not pre-existing), scores confidence, produces a prioritized severity report, and requires your approval before posting anything to GitHub.
+
+**Usage:** `/review-pr [PR number or branch name]`
+
 ### deploy
 Deploy your application to staging or production via GitHub Actions. Auto-detects changed services by diffing against the last successful deployment, shows a plan, and streams live workflow progress.
 
