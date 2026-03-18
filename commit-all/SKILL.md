@@ -125,8 +125,6 @@ Run the commit:
 ```bash
 git commit -m "$(cat <<'EOF'
 <commit message here>
-
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
 EOF
 )"
 ```
@@ -198,8 +196,6 @@ and bio editing functionality.
 - Add profile API endpoints
 - Add profile page tests
 
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
-
 5. git commit
 6. Confirm success
 ```
@@ -223,8 +219,6 @@ comprehensive API documentation.
 - Add compression plugins
 - Update API documentation with examples
 - Add contribution guidelines
-
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>
 ```
 
 ### Example 3: Sensitive Files Detected
@@ -262,4 +256,3 @@ What would you like to do?
 - This skill stages **everything** - use `/commit` for selective commits
 - Always reviews files before staging to prevent committing secrets
 - If commit fails due to hooks, fix the issue and create a NEW commit (never amend unless explicitly requested)
-- Always add "Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>" to commits

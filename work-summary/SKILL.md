@@ -7,8 +7,8 @@ Generate a summary of work done based on git commit history.
 `<author> <start_datetime> <end_datetime> <repo1> [repo2] [repo3]...`
 
 ### Examples
-- `/work-summary Prasad "2026-01-08 06:00" "2026-01-09 02:00" supatest aiden`
-- `/work-summary "Prasad Pilla" "2026-01-07 09:00" "2026-01-07 18:00" .`
+- `/work-summary Alice "2026-01-08 09:00" "2026-01-09 18:00" frontend backend`
+- `/work-summary "Alice Smith" "2026-01-07 09:00" "2026-01-07 18:00" .`
 
 ## When to use this skill
 
@@ -32,10 +32,10 @@ If no arguments provided, ask the user for:
 Example prompts:
 ```
 Please provide:
-- Author name: (e.g., "Prasad" or "Prasad Pilla")
+- Author name: (e.g., "Alice" or "Alice Smith")
 - Start time: (e.g., "2026-01-08 09:00")
 - End time: (e.g., "2026-01-08 18:00")
-- Repositories: (e.g., "supatest aiden" or "." for current)
+- Repositories: (e.g., "frontend backend" or "." for current)
 ```
 
 ### 2. Collect Git Data
@@ -53,7 +53,7 @@ cd <repo> && git log --author="<author>" --since="<start>" --until="<end>" --sho
 ```
 
 **Notes:**
-- Assume IST timezone (+0530) unless otherwise specified
+- Assume the user's local timezone unless otherwise specified
 - Handle relative paths (convert to absolute if needed)
 - If repo doesn't exist, warn and skip it
 
@@ -134,10 +134,10 @@ Use this format:
 
 ### Example 1: With Arguments
 ```
-User: "/work-summary Prasad '2026-02-13 09:00' '2026-02-13 18:00' supatest"
+User: "/work-summary Alice '2026-02-13 09:00' '2026-02-13 18:00' frontend"
 
 You:
-1. cd supatest
+1. cd frontend
 2. Run git log commands
 3. Analyze commits
 4. Output:
@@ -145,11 +145,11 @@ You:
 ## Work Summary: 2026-02-13 09:00 - 2026-02-13 18:00
 
 ### Large (1)
-1. **Add user authentication system** (supatest) - Implemented JWT-based auth with login, signup, and password reset flows
+1. **Add user authentication system** (frontend) - Implemented JWT-based auth with login, signup, and password reset flows
 
 ### Medium (2)
-1. **Refactor API error handling** (supatest) - Standardized error responses across all endpoints
-2. **Add test coverage reporting** (supatest) - Integrated coverage tools and added dashboard
+1. **Refactor API error handling** (frontend) - Standardized error responses across all endpoints
+2. **Add test coverage reporting** (frontend) - Integrated coverage tools and added dashboard
 
 ### Small (5)
 - Fix session timeout bug
@@ -165,28 +165,28 @@ You:
 
 ### Example 2: Multiple Repos
 ```
-User: "/work-summary 'Prasad Pilla' '2026-02-01 00:00' '2026-02-07 23:59' supatest aiden docs"
+User: "/work-summary 'Alice Smith' '2026-02-01 00:00' '2026-02-07 23:59' frontend backend docs"
 
 You analyze commits across all three repos and group by task:
 
 ## Work Summary: 2026-02-01 - 2026-02-07
 
 ### Large (2)
-1. **Implement CI/CD pipeline** (supatest, aiden) - Set up GitHub Actions for automated testing and deployment
-2. **Add real-time collaboration** (aiden) - WebSocket-based live editing with conflict resolution
+1. **Implement CI/CD pipeline** (frontend, backend) - Set up GitHub Actions for automated testing and deployment
+2. **Add real-time collaboration** (backend) - WebSocket-based live editing with conflict resolution
 
 ### Medium (3)
-1. **Optimize database queries** (supatest) - Added indexes and rewrote slow queries
+1. **Optimize database queries** (backend) - Added indexes and rewrote slow queries
 2. **Update documentation site** (docs) - Redesigned docs with new examples
-3. **Add error tracking** (aiden) - Integrated Sentry for error monitoring
+3. **Add error tracking** (frontend) - Integrated Sentry for error monitoring
 
 ### Small (8)
-- Fix dashboard loading spinner (aiden)
-- Update README with new features (supatest)
+- Fix dashboard loading spinner (frontend)
+- Update README with new features (backend)
 - Add changelog for v2.1 (docs)
-- Fix mobile responsive issues (aiden)
-- Remove debug logging (supatest)
-- Update dependencies (supatest, aiden)
+- Fix mobile responsive issues (frontend)
+- Remove debug logging (backend)
+- Update dependencies (frontend, backend)
 - Fix broken links in docs (docs)
 - Add code of conduct (docs)
 
@@ -200,12 +200,12 @@ You analyze commits across all three repos and group by task:
 User: "/work-summary"
 
 You: "Please provide the following information:
-- Author name: (e.g., 'Prasad' or 'Prasad Pilla')
+- Author name: (e.g., 'Alice' or 'Alice Smith')
 - Start date/time: (format: YYYY-MM-DD HH:MM, e.g., '2026-02-13 09:00')
 - End date/time: (format: YYYY-MM-DD HH:MM, e.g., '2026-02-13 18:00')
-- Repository paths: (space-separated, e.g., 'supatest aiden' or '.' for current directory)"
+- Repository paths: (space-separated, e.g., 'frontend backend' or '.' for current directory)"
 
-User: "Prasad, 2026-02-13 09:00, 2026-02-13 18:00, ."
+User: "Alice, 2026-02-13 09:00, 2026-02-13 18:00, ."
 
 You: [Process current directory as repository and generate summary]
 ```
@@ -216,7 +216,7 @@ You: [Process current directory as repository and generate summary]
 - **Use commit messages**: Look for conventional commit prefixes (feat:, fix:, refactor:, etc.)
 - **Context matters**: A 10-line change to a critical file might be "Medium", while a 100-line new test file might be "Small"
 - **Repo names**: Only show repo names if analyzing multiple repos
-- **Time zones**: Default to IST (+0530) but respect user's timezone if specified
+- **Time zones**: Default to local timezone but respect user's timezone if specified
 - **Clarity**: Make task descriptions clear and business-value focused
 - **Accuracy**: Count lines accurately from git stats
 

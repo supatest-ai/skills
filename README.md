@@ -80,12 +80,12 @@ Stage all changes and commit with well-structured commit messages following conv
 
 **Usage:** Invoke with `/commit-all` to stage and commit everything.
 
-### test-with-supatest
-Generate comprehensive E2E tests and a visual verification report for a completed feature using Supatest CLI.
+### test-feature
+Interactively test a completed feature using browser automation. Navigates the live app, exercises all key flows, captures a GIF walkthrough, and produces a visual verification report.
 
-**Usage:** `/test-with-supatest [feature-description]`
+**Usage:** `/test-feature [feature-description]`
 
-**Example:** `/test-with-supatest "user authentication login form with email and password"`
+**Example:** `/test-feature "user authentication login form — app at http://localhost:3000"`
 
 ## 🔄 Auto-Update
 
